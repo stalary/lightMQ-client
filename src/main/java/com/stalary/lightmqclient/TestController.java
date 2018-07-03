@@ -49,6 +49,11 @@ public class TestController {
     public JsonResponse consume(
             @RequestParam(required = false, defaultValue = "") String group,
             @RequestParam String topic) {
-        return JsonResponse.success(consumer.get(group, topic));
+        return JsonResponse.success();
     }
+
+    public static void main(String[] args) {
+
+    }
+
 }

@@ -5,14 +5,9 @@
  */
 package com.stalary.lightmqclient.facade;
 
-import com.stalary.lightmqclient.JsonResponse;
-import com.stalary.lightmqclient.WebClientService;
+import com.stalary.lightmqclient.MQListener;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Consumer
@@ -22,17 +17,25 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class Consumer {
+public class Consumer implements MQConsumer {
 
-    @Resource
+    @Override
+    @MQListener(topics = {"123", "456"})
+    public void process() {
+        System.out.println("123");
+    }
+
+
+
+    /*@Resource
     private WebClientService service;
 
-    /**
+    *//**
      * 消费消息
      * @param group
      * @param topic
      * @return
-     */
+     *//*
     public String get(String group, String topic) {
         JsonResponse jsonResponse = service.get(group, topic);
         if (null == jsonResponse || null == jsonResponse.get("data")) {
@@ -51,5 +54,5 @@ public class Consumer {
 
     public String get(String topic) {
         return get("", topic);
-    }
+    }*/
 }

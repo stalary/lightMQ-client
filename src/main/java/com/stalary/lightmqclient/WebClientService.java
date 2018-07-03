@@ -14,6 +14,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 /**
  * WebClientService
  *
@@ -58,11 +60,8 @@ public class WebClientService {
 
     public JsonResponse get(String group, String topic) {
         Mono<JsonResponse> builder = builder(url, HttpMethod.GET, "/consume?group={group}&topic={topic}", group, topic);
-        return builder.block();
+        return builder
+                .block(Duration.ofSeconds(10));
     }
 
-    @MQListener(topics = {"123", "456"})
-    public void process() {
-
-    }
 }
