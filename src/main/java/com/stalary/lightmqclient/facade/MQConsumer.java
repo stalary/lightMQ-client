@@ -5,6 +5,8 @@
  */
 package com.stalary.lightmqclient.facade;
 
+import com.stalary.lightmqclient.MessageDto;
+
 /**
  * MQConsumer
  * 实现该接口实现消费
@@ -13,5 +15,5 @@ package com.stalary.lightmqclient.facade;
  */
 public interface MQConsumer {
 
-    void process();
+    void process(MessageDto messageDto);
 }

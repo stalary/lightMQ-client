@@ -60,8 +60,11 @@ public class WebClientService {
 
     public JsonResponse get(String group, String topic) {
         Mono<JsonResponse> builder = builder(url, HttpMethod.GET, "/consume?group={group}&topic={topic}", group, topic);
-        return builder
-                .block(Duration.ofSeconds(10));
+        return builder.block();
+    }
+
+    public JsonResponse get(String topic) {
+        return get("", topic);
     }
 
 }
