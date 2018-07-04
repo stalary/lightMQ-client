@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.stalary.lightmqclient.facade.MQConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ListenerLocator implements ApplicationContextAware {
 
-    @Resource
+    @Autowired
     private WebClientService service;
 
     private ExecutorService executor = Executors.newCachedThreadPool();

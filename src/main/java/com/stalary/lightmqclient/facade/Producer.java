@@ -7,9 +7,8 @@ package com.stalary.lightmqclient.facade;
 
 import com.stalary.lightmqclient.JsonResponse;
 import com.stalary.lightmqclient.WebClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * Producer
@@ -20,7 +19,7 @@ import javax.annotation.Resource;
 @Service
 public class Producer {
 
-    @Resource
+    @Autowired
     private WebClientService service;
 
     public JsonResponse send(String topic, String key, String value) {
