@@ -19,8 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class Producer {
 
-    @Autowired
     private WebClientService service;
+
+    @Autowired
+    public Producer(WebClientService service) {
+        this.service = service;
+    }
 
     public JsonResponse send(String topic, String key, String value) {
         return service.send(topic, key, value);
