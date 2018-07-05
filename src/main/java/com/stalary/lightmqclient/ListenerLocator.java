@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author stalary
  */
-@Component
 @Slf4j
 public class ListenerLocator implements ApplicationContextAware {
 

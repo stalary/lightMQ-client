@@ -6,15 +6,12 @@
 package com.stalary.lightmqclient;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
-
-import java.time.Duration;
 
 /**
  * WebClientService
@@ -23,11 +20,9 @@ import java.time.Duration;
  * @since 2018/07/03
  */
 @Slf4j
-@Service
 public class WebClientService {
 
-    @Value("${server.url}")
-    private String url;
+    private final String url = "http://120.24.5.178:8001";
 
     public WebClientService() {
         Mono<JsonResponse> builder = builder(url, HttpMethod.OPTIONS, "");

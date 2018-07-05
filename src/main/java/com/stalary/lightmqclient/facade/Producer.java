@@ -16,11 +16,14 @@ import org.springframework.stereotype.Service;
  * @author lirongqian
  * @since 2018/07/03
  */
-@Service
 public class Producer {
 
-    @Autowired
     private WebClientService service;
+
+    @Autowired
+    public Producer(WebClientService service) {
+        this.service = service;
+    }
 
     public JsonResponse send(String topic, String key, String value) {
         return service.send(topic, key, value);
