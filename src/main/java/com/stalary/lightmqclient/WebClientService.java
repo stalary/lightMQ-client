@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
  * @since 2018/07/03
  */
 @Slf4j
-@Service
 public class WebClientService {
 
     private final String url = "http://120.24.5.178:8001";

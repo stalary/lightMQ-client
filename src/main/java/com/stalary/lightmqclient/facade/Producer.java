@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
  * @author lirongqian
  * @since 2018/07/03
  */
-@Service
 public class Producer {
 
     private WebClientService service;
