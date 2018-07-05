@@ -8,7 +8,6 @@ package com.stalary.lightmqclient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
@@ -25,7 +24,6 @@ public class WebClientService {
     private final String url = "http://120.24.5.178:8001";
 
     public WebClientService() {
-        Mono<JsonResponse> builder = builder(url, HttpMethod.OPTIONS, "");
     }
 
     private Mono<JsonResponse> builder(String baseUrl, HttpMethod httpMethod, String uri, Object... uriVariables) {
@@ -39,8 +37,7 @@ public class WebClientService {
                 })
                 .bodyToMono(JsonResponse.class)
                 .retry(3)
-                .doOnError(WebClientResponseException.class, err -> log.warn("error: {}, msg: {}", err.getRawStatusCode(), err.getResponseBodyAsString()))
-                .doOnSuccess(responseMessage -> log.info("webClient: " + url + uri + responseMessage));
+                .doOnError(WebClientResponseException.class, err -> log.warn("error: {}, msg: {}", err.getRawStatusCode(), err.getResponseBodyAsString()));
     }
 
     public JsonResponse getAll() {
