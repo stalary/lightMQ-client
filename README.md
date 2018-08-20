@@ -11,7 +11,7 @@ http://120.24.5.178:8001/registerGroup?topic=test&group=slave
 <dependency>
     <groupId>com.stalary</groupId>
     <artifactId>lightmqclient</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
 3. 实现MQConsumer接口，自定义消息处理，@MQListener设置需要监听的topic
