@@ -42,6 +42,7 @@ public class ListenerLocator implements ApplicationContextAware {
                 Method method = clazz.getMethod("process", MessageDto.class);
                 MQListener annotation = method.getAnnotation(MQListener.class);
                 if (annotation != null) {
+                    // 当开启消费者时才进行轮询
                     String[] topics = annotation.topics();
                     executor.submit(() -> {
                         listener(topics, method, clazz);
@@ -58,6 +59,10 @@ public class ListenerLocator implements ApplicationContextAware {
     private String listener(String[] topics, Method method, Class<? extends MQConsumer> clazz) {
         for (String topic : topics) {
             JsonResponse jsonResponse = service.get(topic);
+            // code为10代表消费者未启动
+            if (jsonResponse != null && jsonResponse.get("code").equals(10)) {
+                return null;
+            }
             if (jsonResponse != null && jsonResponse.get("data") != null) {
                 Object data = jsonResponse.get("data");
                 MessageDto messageDto = JSONObject.parseObject(JSONObject.toJSONString(data), MessageDto.class);

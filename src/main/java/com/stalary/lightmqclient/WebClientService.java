@@ -51,8 +51,12 @@ public class WebClientService {
     }
 
     public JsonResponse get(String topic) {
-        Mono<JsonResponse> builder = builder("/consume?group={group}&topic={topic}", properties.getGroup(), topic);
-        return builder.block();
+        if (properties.isConsumer()) {
+            Mono<JsonResponse> builder = builder("/consume?group={group}&topic={topic}", properties.getGroup(), topic);
+            return builder.block();
+        } else {
+            return JsonResponse.fail(-1, "消费者未开启");
+        }
     }
 
 }
