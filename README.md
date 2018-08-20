@@ -8,6 +8,13 @@ http://120.24.5.178:8001/registerGroup?topic=test&group=slave
 ```
 2. 在需要使用的项目中使用maven引入
 ```
+<repositories>
+		<repository>
+			<id>oss</id>
+			<name>oss</name>
+			<url>https://oss.sonatype.org/content/groups/public</url>
+		</repository>
+</repositories>
 <dependency>
     <groupId>com.stalary</groupId>
     <artifactId>lightmqclient</artifactId>
