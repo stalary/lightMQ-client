@@ -31,4 +31,9 @@ public class MyConsumer implements MQConsumer {
 private Producer producer;
 producer.send("test", "123");
 ```
-
+5. 在application.properties中进行配置
+```
+com.stalary.lightmq.group=webflux // 消费分组，不配置则为消费默认分组
+com.stalary.lightmq.url=http://120.24.5.178:8001 // 使用服务端的地址
+com.stalary.lightmq.consumer=false // 是否开启消费者，默认开启
+```
