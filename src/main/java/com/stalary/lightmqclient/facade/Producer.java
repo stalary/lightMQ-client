@@ -8,7 +8,6 @@ package com.stalary.lightmqclient.facade;
 import com.stalary.lightmqclient.JsonResponse;
 import com.stalary.lightmqclient.WebClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Producer
