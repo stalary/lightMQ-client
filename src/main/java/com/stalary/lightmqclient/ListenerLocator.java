@@ -7,7 +7,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,6 +46,8 @@ public class ListenerLocator implements ApplicationContextAware {
                     executor.submit(() -> {
                         listener(topics, method, clazz);
                     });
+                } else {
+                    log.warn("annotation MQListener is not exist!");
                 }
             } catch (Exception e) {
                 log.warn("ListenerLocator error: " + e);
@@ -54,7 +55,7 @@ public class ListenerLocator implements ApplicationContextAware {
         });
     }
 
-    public String listener(String[] topics, Method method, Class<? extends MQConsumer> clazz) {
+    private String listener(String[] topics, Method method, Class<? extends MQConsumer> clazz) {
         for (String topic : topics) {
             JsonResponse jsonResponse = service.get(topic);
             if (jsonResponse != null && jsonResponse.get("data") != null) {

@@ -14,5 +14,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MQListener {
 
+    /** 监听的topics **/
     String[] topics() default {};
 }
