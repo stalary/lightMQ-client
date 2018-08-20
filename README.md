@@ -6,16 +6,15 @@ lightMQ的客户端
 http://120.24.5.178:8001/registerTopic?topic=test
 http://120.24.5.178:8001/registerGroup?topic=test&group=slave
 ```
-2. mvn clean install打包
-3. 在需要使用的项目中使用引入引来包
+2. 在需要使用的项目中使用maven引入
 ```
 <dependency>
     <groupId>com.stalary</groupId>
     <artifactId>lightmqclient</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
-4. 实现MQConsumer接口，自定义消息处理，@MQListener设置需要监听的topic
+3. 实现MQConsumer接口，自定义消息处理，@MQListener设置需要监听的topic
 ```
 @Component
 public class MyConsumer implements MQConsumer {
@@ -26,7 +25,7 @@ public class MyConsumer implements MQConsumer {
     }
 }
 ```
-5. 注入Producer生产者，进行消息的发送
+4. 注入Producer生产者，进行消息的发送
 ```
 @Resource
 private Producer producer;
