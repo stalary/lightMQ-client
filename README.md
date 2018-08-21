@@ -8,10 +8,17 @@ http://120.24.5.178:8001/registerGroup?topic=test&group=slave
 ```
 2. 在需要使用的项目中使用maven引入
 ```
+<repositories>
+    <repository>
+        <id>oss</id>
+	<name>oss</name>
+	<url>https://oss.sonatype.org/content/groups/public</url>
+    </repository>
+</repositories>
 <dependency>
     <groupId>com.stalary</groupId>
     <artifactId>lightmqclient</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 </dependency>
 ```
 3. 实现MQConsumer接口，自定义消息处理，@MQListener设置需要监听的topic
@@ -31,4 +38,9 @@ public class MyConsumer implements MQConsumer {
 private Producer producer;
 producer.send("test", "123");
 ```
-
+5. 在application.properties中进行配置
+```
+com.stalary.lightmq.group=webflux // 消费分组，不配置则为消费默认分组
+com.stalary.lightmq.url=http://120.24.5.178:8001 // 使用服务端的地址，建议自行构建lightmq
+com.stalary.lightmq.consumer=false // 是否开启消费者，默认开启，适用于集群中的单点消费
+```
