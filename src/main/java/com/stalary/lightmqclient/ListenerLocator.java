@@ -44,9 +44,11 @@ public class ListenerLocator implements ApplicationContextAware {
                 if (annotation != null) {
                     // 当开启消费者时才进行轮询
                     String[] topics = annotation.topics();
-                    executor.submit(() -> {
-                        listener(topics, method, clazz);
-                    });
+                    for (String topic : topics) {
+                        executor.submit(() -> {
+                            listener(topic, method, clazz);
+                        });
+                    }
                 } else {
                     log.warn("annotation MQListener is not exist!");
                 }
@@ -56,35 +58,32 @@ public class ListenerLocator implements ApplicationContextAware {
         });
     }
 
-    private String listener(String[] topics, Method method, Class<? extends MQConsumer> clazz) {
-        for (String topic : topics) {
-            JsonResponse jsonResponse = service.get(topic);
-            // code为10代表消费者未启动
-            if (jsonResponse != null && jsonResponse.get("code").equals(10)) {
+    private String listener(String topic, Method method, Class<? extends MQConsumer> clazz) {
+        JsonResponse jsonResponse = service.get(topic);
+        // code为10代表消费者未启动
+        if (jsonResponse != null && jsonResponse.get("code").equals(10)) {
+            return null;
+        }
+        if (jsonResponse != null && jsonResponse.get("data") != null) {
+            Object data = jsonResponse.get("data");
+            MessageDto messageDto = JSONObject.parseObject(JSONObject.toJSONString(data), MessageDto.class);
+            try {
+                method.invoke(clazz.newInstance(), messageDto);
+                TimeUnit.SECONDS.sleep(1);
+                return listener(topic, method, clazz);
+            } catch (InterruptedException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                log.warn("listener error", e);
                 return null;
             }
-            if (jsonResponse != null && jsonResponse.get("data") != null) {
-                Object data = jsonResponse.get("data");
-                MessageDto messageDto = JSONObject.parseObject(JSONObject.toJSONString(data), MessageDto.class);
-                try {
-                    method.invoke(clazz.newInstance(), messageDto);
-                    TimeUnit.SECONDS.sleep(1);
-                    return listener(topics, method, clazz);
-                } catch (InterruptedException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                    log.warn("listener error", e);
-                    return null;
-                }
-            } else {
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                    return listener(topics, method, clazz);
-                } catch (InterruptedException e) {
-                    log.warn("listener error", e);
-                    return null;
-                }
+        } else {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+                return listener(topic, method, clazz);
+            } catch (InterruptedException e) {
+                log.warn("listener error", e);
+                return null;
             }
         }
-        return null;
     }
 
 }
