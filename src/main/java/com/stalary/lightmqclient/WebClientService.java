@@ -55,7 +55,7 @@ public class WebClientService {
             Mono<JsonResponse> builder = builder("/consume?group={group}&topic={topic}", properties.getGroup(), topic);
             return builder.block();
         } else {
-            return JsonResponse.fail(-1, "消费者未开启");
+            return JsonResponse.fail(10, "消费者未开启");
         }
     }
 

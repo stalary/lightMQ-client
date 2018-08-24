@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -45,9 +44,7 @@ public class ListenerLocator implements ApplicationContextAware {
                     // 当开启消费者时才进行轮询
                     String[] topics = annotation.topics();
                     for (String topic : topics) {
-                        executor.submit(() -> {
-                            listener(topic, method, clazz);
-                        });
+                        executor.execute(() -> listener(topic, method, clazz));
                     }
                 } else {
                     log.warn("annotation MQListener is not exist!");
@@ -58,30 +55,28 @@ public class ListenerLocator implements ApplicationContextAware {
         });
     }
 
-    private String listener(String topic, Method method, Class<? extends MQConsumer> clazz) {
-        JsonResponse jsonResponse = service.get(topic);
-        // code为10代表消费者未启动
-        if (jsonResponse != null && jsonResponse.get("code").equals(10)) {
-            return null;
-        }
-        if (jsonResponse != null && jsonResponse.get("data") != null) {
-            Object data = jsonResponse.get("data");
-            MessageDto messageDto = JSONObject.parseObject(JSONObject.toJSONString(data), MessageDto.class);
-            try {
-                method.invoke(clazz.newInstance(), messageDto);
-                TimeUnit.SECONDS.sleep(1);
-                return listener(topic, method, clazz);
-            } catch (InterruptedException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                log.warn("listener error", e);
-                return null;
+    private void listener(String topic, Method method, Class<? extends MQConsumer> clazz) {
+        for (;;) {
+            JsonResponse jsonResponse = service.get(topic);
+            // code为10代表消费者未启动
+            if (jsonResponse != null && jsonResponse.get("code").equals(10)) {
+                break;
             }
-        } else {
-            try {
-                TimeUnit.SECONDS.sleep(1);
-                return listener(topic, method, clazz);
-            } catch (InterruptedException e) {
-                log.warn("listener error", e);
-                return null;
+            if (jsonResponse != null && jsonResponse.get("data") != null) {
+                Object data = jsonResponse.get("data");
+                MessageDto messageDto = JSONObject.parseObject(JSONObject.toJSONString(data), MessageDto.class);
+                try {
+                    method.invoke(clazz.newInstance(), messageDto);
+                    TimeUnit.SECONDS.sleep(0);
+                } catch (Exception e) {
+                    log.warn("listener error", e);
+                }
+            } else {
+                try {
+                    TimeUnit.SECONDS.sleep(0);
+                } catch (Exception e) {
+                    log.warn("listener error", e);
+                }
             }
         }
     }
