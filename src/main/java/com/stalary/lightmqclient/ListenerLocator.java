@@ -67,13 +67,13 @@ public class ListenerLocator implements ApplicationContextAware {
                 MessageDto messageDto = JSONObject.parseObject(JSONObject.toJSONString(data), MessageDto.class);
                 try {
                     method.invoke(clazz.newInstance(), messageDto);
-                    TimeUnit.SECONDS.sleep(0);
+                    TimeUnit.SECONDS.sleep(1);
                 } catch (Exception e) {
                     log.warn("listener error", e);
                 }
             } else {
                 try {
-                    TimeUnit.SECONDS.sleep(0);
+                    TimeUnit.SECONDS.sleep(1);
                 } catch (Exception e) {
                     log.warn("listener error", e);
                 }
