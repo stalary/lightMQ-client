@@ -43,4 +43,6 @@ producer.send("test", "123");
 com.stalary.lightmq.group=webflux // 消费分组，不配置则为消费默认分组
 com.stalary.lightmq.url=http://120.24.5.178:8001 // 使用服务端的地址，建议自行构建lightmq
 com.stalary.lightmq.consumer=false // 是否开启消费者，默认开启，适用于集群中的单点消费
+com.stalary.lightmq.block=false // 是否阻塞模式消费，默认非阻塞
+com.stalary.lightmq.order=false // 是否顺序生产消息，默认无序，采用异步消费
 ```
