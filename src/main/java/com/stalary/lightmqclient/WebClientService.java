@@ -46,13 +46,13 @@ public class WebClientService {
     }
 
     public JsonResponse send(String topic, String key, String value) {
-        Mono<JsonResponse> builder = builder("/produce?topic={topic}&key={key}&value={value}&order={order}", topic, key, value, properties.isOrder());
+        Mono<JsonResponse> builder = builder("/produce?topic={topic}&key={key}&value={value}&order={order}&auto={auto}", topic, key, value, properties.isOrder(), properties.isAuto());
         return builder.block();
     }
 
     public JsonResponse get(String topic) {
         if (properties.isConsumer()) {
-            Mono<JsonResponse> builder = builder("/consume?group={group}&topic={topic}&block={block}", properties.getGroup(), topic, properties.isBlock());
+            Mono<JsonResponse> builder = builder("/consume?group={group}&topic={topic}&auto={auto}", properties.getGroup(), topic, properties.isAuto());
             return builder.block();
         } else {
             return JsonResponse.fail(10, "消费者未开启");

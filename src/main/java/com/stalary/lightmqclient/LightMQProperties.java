@@ -30,6 +30,6 @@ public class LightMQProperties {
     /** 生产模式，默认非顺序 **/
     private boolean order = false;
 
-    /** 消费模式，默认非阻塞 **/
-    private boolean block = false;
+    /** 是否自动创建topic，默认自动创建 **/
+    private boolean auto = true;
 }
