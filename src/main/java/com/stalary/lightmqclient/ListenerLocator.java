@@ -73,7 +73,7 @@ public class ListenerLocator implements ApplicationContextAware {
                 }
             } else {
                 try {
-                    TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.SECONDS.sleep(3);
                 } catch (Exception e) {
                     log.warn("listener error", e);
                 }

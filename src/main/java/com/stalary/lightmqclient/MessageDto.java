@@ -1,21 +1,18 @@
-/**
+package com.stalary.lightmqclient; /**
  * @(#)MessageDto.java, 2018-06-18.
  * <p>
  * Copyright 2018 Stalary.
  */
-package com.stalary.lightmqclient;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * MessageDto
- *
+ * 存储消息
  * @author lirongqian
  * @since 2018/06/18
  */
 @Data
-@AllArgsConstructor
 public class MessageDto {
 
     /**
@@ -33,10 +30,12 @@ public class MessageDto {
      */
     private String value;
 
-    public MessageDto(String topic, String value) {
-        this.topic = topic;
-        this.value = value;
-        this.key = "";
-    }
+    private Long offset;
 
+    public MessageDto(Long offset, String topic, String key, String value) {
+        this.topic = topic;
+        this.key = key;
+        this.value = value;
+        this.offset = offset;
+    }
 }
