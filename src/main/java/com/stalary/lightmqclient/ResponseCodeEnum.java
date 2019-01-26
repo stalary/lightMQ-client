@@ -4,8 +4,6 @@ import lombok.Getter;
 
 /**
  * @author Stalary
- * @description 定义返回的状态码
- * @date 2018/5/31
  */
 public enum ResponseCodeEnum {
 

@@ -33,16 +33,8 @@ import java.util.Map;
 @Slf4j
 public class JsonResponse extends LinkedHashMap<String, Object> {
 
-    /**
-     * 默认的序列化编码
-     */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 返回成功
-     *
-     * @return JsonResponse
-     */
     public static JsonResponse success() {
         return success(null, null);
     }
@@ -60,11 +52,6 @@ public class JsonResponse extends LinkedHashMap<String, Object> {
         return response;
     }
 
-    /**
-     * 返回错误
-     *
-     * @return JsonResponse
-     */
     public static JsonResponse fail() {
         return fail(null);
     }
@@ -82,11 +69,6 @@ public class JsonResponse extends LinkedHashMap<String, Object> {
         return response;
     }
 
-    /**
-     * 返回异常
-     *
-     * @return JsonResponse
-     */
     public static JsonResponse exception(Exception e) {
         return exception(ResponseCodeEnum.EXCEPTION.getCode(), e);
     }
@@ -103,20 +85,10 @@ public class JsonResponse extends LinkedHashMap<String, Object> {
         return response;
     }
 
-    /**
-     * 获取data中的数据
-     *
-     * @return Object
-     */
     public Object getData() {
         return this.get("data");
     }
 
-    /**
-     * 设置data中的数据
-     *
-     * @return JsonResponse
-     */
     public JsonResponse dataPut(String key, Object value) {
         mapData().put(key, value);
         return this;

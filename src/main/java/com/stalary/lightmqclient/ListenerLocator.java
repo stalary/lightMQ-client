@@ -3,7 +3,6 @@ package com.stalary.lightmqclient;
 import com.alibaba.fastjson.JSONObject;
 import com.stalary.lightmqclient.facade.MQConsumer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -28,8 +27,7 @@ public class ListenerLocator implements ApplicationContextAware {
     /**
      * 获取应用上下文并获取相应的接口实现类
      *
-     * @param applicationContext
-     * @throws BeansException
+     * @param applicationContext 应用上线下文
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -55,6 +53,12 @@ public class ListenerLocator implements ApplicationContextAware {
         });
     }
 
+    /**
+     * listener 监听方法
+     * @param topic topic
+     * @param method 方法
+     * @param clazz 类
+     **/
     private void listener(String topic, Method method, Class<? extends MQConsumer> clazz) {
         for (;;) {
             JsonResponse jsonResponse = service.get(topic);
